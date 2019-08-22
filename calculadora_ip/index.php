@@ -66,19 +66,16 @@
                         echo '<h2> <span style="color: #fd5708;">' . $_POST['ip'] . '</span> </h2>';
                         echo "<pre class='resultado'>";
                         
-                        echo "<b>Endereço/Rede: </b>" . $ip->endereco_completo() . '<br>';
-                        echo "<b>Máscara de sub-rede: </b>" . $ip->mascara() . '<br>';
-                        echo "<b>IP da Rede: </b>" . $ip->rede() . '/' . $ip->cidr() . '<br>';
-                        echo "<b>Broadcast da Rede: </b>" . $ip->broadcast() . '<br>';
-                        echo "<b>Primeiro Host: </b>" . $ip->primeiro_ip() . '<br>';
-                        echo "<b>Último Host: </b>" . $ip->ultimo_ip() . '<br>';
-                        echo "<b>Total de IPs:  </b>" . $ip->total_ips() . '<br>';
-                        echo "<b>Binário: </b>" . $ip->ip_binario() . '<br>';
-                        echo "<b>Hosts: </b>" . $ip->ips_rede() . '<br>';
-                        echo "<b>Sub-redes: </b>" . $ip->qtd_subredes() . '<br>';
-                        echo "<b>Classe: </b>" . $ip->classe_ip() . '<br>';
-                        echo "<b>Público/Privado: </b>" . $ip->publicoPrivado();
-                        echo "</pre>";
+                        $quantidadeSubs = $ip->qtd_subredes();
+
+                        for ($i=0; $i < $quantidadeSubs ; $i++) { 
+
+                            $mensagem = $ip->blocoSubrede();
+
+                            echo $mensagem;
+
+                        }
+
                     } else {
                         echo 'Endereço IPv4 inválido!';
                     }
