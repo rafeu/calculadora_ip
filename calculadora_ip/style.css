@@ -39,7 +39,7 @@ pre {
     margin-top: -11%;
     margin-left: 22%;
     width: 27.5%;
-    border-right: 2px solid #fd5708;
+    /* border-right: 2px solid #fd5708; */
 }
 
 .input_text{
@@ -62,8 +62,8 @@ pre {
 }
 
 .resultado2{
-    width: 33%;
-    margin-left: 58%;
+    width: 19.5%;
+    margin-left: 50%;
     margin-top: -11%;
     font-size: 15px;
 }
