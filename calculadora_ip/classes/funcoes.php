@@ -245,5 +245,41 @@ class calc_ipv4
     }
 
 
+    /* Informa a quantidade de sub-redes */
+    public function qtd_subredes(){
+        $teste = $this->total_ips();
+        $quant = (256 / $teste);
+        return $quant;
+    }
+
+
+    /* Informa cada bloco de sub-rede */
+    public function blocoSubrede(){
+        $broadcast = explode(".", $this->broadcast());
+
+        $semi_ip = $broadcast[0] . "." . $broadcast[1] . "." . $broadcast[2];
+
+        $host1 = 0;
+
+        for ($i=0; $i < $this->qtd_subredes(); $i++) { 
+            
+            $host2 = $host1 + $broadcast[3];
+
+            $primeiroValor = $semi_ip . "." . $host1;
+            $segundoValor = $semi_ip . "." . $host2;
+
+            $intervalo1 = $host1 + 1;
+            $intervalo2 = $host2 - 1;
+
+            $valorIntervalo1 = $semi_ip . "." . $intervalo1;
+            $valorIntervalo2 = $semi_ip . "." . $intervalo2;
+
+            $mensagem = "<b style='color: green;'>" . $primeiroValor . '</b> <b style="color: green;"> -- </b>' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . ' <b style="color: green;"> -- </b>  <b style="color: green;">' . $segundoValor . "</b> <br>";
+            return $mensagem;
+
+            $host1 = $broadcast[3] + 1;
+        
+        }    
+    }
 }
 
