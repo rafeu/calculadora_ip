@@ -43,8 +43,8 @@
                         echo "<b>Broadcast da Rede: </b>" . $ip->broadcast() . '<br>';
                         echo "<b>Primeiro Host: </b>" . $ip->primeiro_ip() . '<br>';
                         echo "<b>Último Host: </b>" . $ip->ultimo_ip() . '<br>';
-                        echo "<b>Total de IPs:  </b>" . $ip->total_ips() . '<br>';
                         echo "<b>Binário: </b>" . $ip->ip_binario() . '<br>';
+                        echo "<b>Total de IPs:  </b>" . $ip->total_ips() . '<br>';
                         echo "<b>Hosts: </b>" . $ip->ips_rede() . '<br>';
                         echo "<b>Sub-redes: </b>" . $ip->qtd_subredes() . '<br>';
                         echo "<b>Classe: </b>" . $ip->classe_ip() . '<br>';
@@ -57,26 +57,37 @@
             ?>
         </div>
 
-        <div class="resultado3">
+        <div style="text-align: center;">
 
             <?php
                 if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['ip'] ) ) {
 
                     if( $ip->valida_endereco() ) {
                         echo '<h2> <span style="color: #fd5708;">↓ Blocos de sub-redes ↓</span> </h2>';
-                        echo "<pre class='resultado'>";
+
+                        echo '<div class="resultado3"';
                         
                         $quantidadeSubs = $ip->qtd_subredes();
 
                         $mensagem = $ip->blocoSubrede();
 
+                        $j = 1;
 
                         for ($i=0; $i < $quantidadeSubs; $i++) { 
                             
+                        
+                            echo "<br>";
+                            echo "<i> Bloco " . $j . "</i>";
+                            echo "<br>";
+                        
                             echo $mensagem[$i];
+                            
+                            
+                            $j++;
                         
                         }
 
+                        echo '</div>';
                     }
                 }
             ?>

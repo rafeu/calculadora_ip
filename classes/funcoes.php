@@ -278,7 +278,7 @@ class calc_ipv4
             $valorIntervalo1 = $semi_ip . "." . $intervalo1;
             $valorIntervalo2 = $semi_ip . "." . $intervalo2;
 
-            $mensagem[$i] = "<b style='margin-left: -15%;'>" . $primeiroValor . ' -- ' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . ' -- ' . $segundoValor . "</b> <br>";
+            $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
             
             $host1 = $host1 + $broadcast[3] + 1;
 

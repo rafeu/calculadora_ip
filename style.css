@@ -71,4 +71,7 @@ pre {
 
 .resultado3{
     text-align: center;
+    background-color: #eeeeee;
+    border: 2px dashed #fd5708; 
+    padding: 2%;
 }
