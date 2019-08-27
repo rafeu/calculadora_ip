@@ -184,22 +184,15 @@ class calc_ipv4
 
     /* Diz se o ip é público ou privado */
     public function publicoPrivado(){
-        $enderecoExplode = explode(".", $this->endereco);
 
-        if($enderecoExplode[0] == 192){
-            $securidade = "Privado";
+        $endereco_separado = explode('.',$this->endereco);
 
-        }elseif($enderecoExplode[0] == 172){
-            $securidade = "Privado";
-
-        }elseif($enderecoExplode[0] == 10){
-            $securidade = "Privado";
-
+        if ($endereco_separado[0] == 10 OR $endereco_separado[0] == 172 AND $endereco_separado[1] >= 16 AND $endereco_separado[1] <= 31 OR $endereco_separado[0] == 192 AND $endereco_separado[1] == 168) {
+            return "Privado";
         }else{
-            $securidade = "Público";
+            return "Público";
         }
-
-        return $securidade;
+   
     }
 
 
@@ -259,32 +252,91 @@ class calc_ipv4
         $count = $this->qtd_subredes();
 
         $broadcast = explode(".", $this->broadcast());
+        $endereco = explode(".", $this->endereco());
 
+        //ip sem o ultimo número
         $semi_ip = $broadcast[0] . "." . $broadcast[1] . "." . $broadcast[2];
 
+        
         $host1 = 0;
 
     
-        for ($i=0; $i < $count; $i++) { 
-                        
-            $host2 = $host1 + $broadcast[3];
+        if($this->cidr() <= 30){
 
-            $primeiroValor = $semi_ip . "." . $host1;
-            $segundoValor = $semi_ip . "." . $host2;
+            for ($i=0; $i < $count; $i++) { 
+                
+                
+                $host2 = $host1 + $broadcast[3];
 
-            $intervalo1 = $host1 + 1;
-            $intervalo2 = $host2 - 1;
+                //primeiro ip não diponível
+                $primeiroValor = $semi_ip . "." . $host1;
 
-            $valorIntervalo1 = $semi_ip . "." . $intervalo1;
-            $valorIntervalo2 = $semi_ip . "." . $intervalo2;
+                //ultimo ip não disponível
+                $segundoValor = $semi_ip . "." . $host2;
 
-            $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
+                $intervalo1 = $host1 + 1;
+                $intervalo2 = $host2 - 1;
+
+                //primeiro ip diponível
+                $valorIntervalo1 = $semi_ip . "." . $intervalo1;
+                //ultimo ip disponível
+                $valorIntervalo2 = $semi_ip . "." . $intervalo2;
+
+                //confere em qual intervalo ta o endereço
+                if($endereco[3] >= $intervalo1 and $endereco[3] <= $intervalo2 ){
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - <b style="color: #fd5708;">' . $this->endereco . '</b> - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
+                }else{
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
+                }
+
+                $host1 = $host1 + $broadcast[3] + 1;
+
+            }
+
+        }elseif( $this->cidr() == 31 ){
+
+            for ($i=0; $i < $count; $i++) { 
+                            
+                $host2 = $host1 + $broadcast[3];
+
+                $primeiroValor = $semi_ip . "." . $host1;
+                $segundoValor = $semi_ip . "." . $host2;
+
+                $intervalo1 = $host1 + 1;
+                $intervalo2 = $host2 - 1;
+
+                $valorIntervalo1 = $semi_ip . "." . $intervalo1;
+                $valorIntervalo2 = $semi_ip . "." . $intervalo2;
+
+                if($endereco[3] >= $intervalo1 and $endereco[3] <= $intervalo2 ){
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - <b style="color: #fd5708;">' . $this->endereco . '</b> - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
+                }else{
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
+                }
+
+                $host1 = $host1 + $broadcast[3] + 1;
+
+            }
             
-            $host1 = $host1 + $broadcast[3] + 1;
+        }elseif( $this->cidr() == 32 ){
 
-        } 
+            for ($i=0; $i < $count; $i++) { 
+
+                $Valor = $semi_ip . "." . $host1;
+
+                if($endereco[3] == $host1 ){
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $Valor . '</b> -- <b>' . $Valor . ' - <b style="color: #fd5708;">' . $this->endereco . '</b> - ' . $Valor . '</b> -- <b style="color: #fd5708;">' . $Valor . "</b> <br>";
+                }else{
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $Valor . '</b> -- <b>' . $Valor . ' - ' . $Valor . '</b> -- <b style="color: #fd5708;">' . $Valor . "</b> <br>";
+                }
+                
+                $host1 = $host1 + $broadcast[3];
+
+            }
+        }
 
         return $mensagem;   
     }
 }
 
+    
