@@ -266,7 +266,7 @@ class calc_ipv4
             for ($i=0; $i < $count; $i++) { 
                 
                 
-                $host2 = $host1 + $broadcast[3];
+                $host2 = $host1 + $this->total_ips() - 1;
 
                 //primeiro ip não diponível
                 $primeiroValor = $semi_ip . "." . $host1;
@@ -289,7 +289,7 @@ class calc_ipv4
                     $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
                 }
 
-                $host1 = $host1 + $broadcast[3] + 1;
+                $host1 = $host1 + $this->total_ips();
 
             }
 
@@ -297,7 +297,7 @@ class calc_ipv4
 
             for ($i=0; $i < $count; $i++) { 
                             
-                $host2 = $host1 + $broadcast[3];
+                $host2 = $host1 + $this->total_ips() - 1;
 
                 $primeiroValor = $semi_ip . "." . $host1;
                 $segundoValor = $semi_ip . "." . $host2;
@@ -308,13 +308,13 @@ class calc_ipv4
                 $valorIntervalo1 = $semi_ip . "." . $intervalo1;
                 $valorIntervalo2 = $semi_ip . "." . $intervalo2;
 
-                if($endereco[3] >= $intervalo1 and $endereco[3] <= $intervalo2 ){
-                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - <b style="color: #fd5708;">' . $this->endereco . '</b> - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
+                if($endereco[3] <= $intervalo1 and $endereco[3] >= $intervalo2 ){
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo2 . ' - <b style="color: #fd5708;">' . $this->endereco . '</b> - ' . $valorIntervalo1 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
                 }else{
-                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo1 . ' - ' . $valorIntervalo2 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
+                    $mensagem[$i] = "<b style='color: #fd5708;'>" . $primeiroValor . '</b> -- <b>' . $valorIntervalo2 . ' - ' . $valorIntervalo1 . '</b> -- <b style="color: #fd5708;">' . $segundoValor . "</b> <br>";
                 }
 
-                $host1 = $host1 + $broadcast[3] + 1;
+                $host1 = $host1 + $this->total_ips();
 
             }
             
@@ -330,7 +330,7 @@ class calc_ipv4
                     $mensagem[$i] = "<b style='color: #fd5708;'>" . $Valor . '</b> -- <b>' . $Valor . ' - ' . $Valor . '</b> -- <b style="color: #fd5708;">' . $Valor . "</b> <br>";
                 }
                 
-                $host1 = $host1 + $broadcast[3];
+                $host1 = $host1 + $this->total_ips();
 
             }
         }
